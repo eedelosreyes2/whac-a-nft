@@ -9,7 +9,15 @@ const NUMBER_OF_MOLES = 5;
 const POINTS_MULTIPLIER = 0.9;
 const TIME_MULTIPLIER = 1.25;
 
-const Moles = ({ children }) => <div className="moles">{children}</div>;
+const generateMoles = (amount) =>
+  new Array(amount).fill().map(() => ({
+    speed: gsap.utils.random(0.5, 1),
+    delay: gsap.utils.random(0.5, 4),
+    points: MOLE_SCORE,
+  }));
+
+const Moles = ({ children }) => <div className="flex">{children}</div>;
+
 const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
   const [whacked, setWhacked] = useState(false);
   const bobRef = useRef(null);
@@ -69,17 +77,20 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
     </div>
   );
 };
+
 const Score = ({ value }) => <div>{`Score: ${value}`}</div>;
 
 const Timer = ({ time, interval = 1000, onEnd }) => {
   const [internalTime, setInternalTime] = useState(time);
   const timerRef = useRef(time);
   const timeRef = useRef(time);
+
   useEffect(() => {
     if (internalTime === 0 && onEnd) {
       onEnd();
     }
   }, [internalTime, onEnd]);
+
   useEffect(() => {
     timerRef.current = setInterval(
       () => setInternalTime((timeRef.current -= interval)),
@@ -89,6 +100,7 @@ const Timer = ({ time, interval = 1000, onEnd }) => {
       clearInterval(timerRef.current);
     };
   }, [interval]);
+
   return <div>{`Time: ${internalTime / 1000}s`}</div>;
 };
 
@@ -96,6 +108,7 @@ const Game = () => {
   const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
+  const [moles, setMoles] = useState(generateMoles(NUMBER_OF_MOLES));
 
   const onWhack = (points) => setScore(score + points);
 
@@ -126,13 +139,13 @@ const Game = () => {
           <Score value={score} />
           <Timer time={TIME_LIMIT} onEnd={endGame} />
           <Moles>
-            {new Array(NUMBER_OF_MOLES).fill().map((_, index) => (
+            {moles.map(({ delay, speed, points }, index) => (
               <Mole
                 key={index}
                 onWhack={onWhack}
-                points={MOLE_SCORE}
-                delay={0}
-                speed={2}
+                points={points}
+                delay={delay}
+                speed={speed}
               />
             ))}
           </Moles>
