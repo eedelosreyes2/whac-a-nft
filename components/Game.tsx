@@ -113,6 +113,17 @@ const Timer = ({ time, interval = 1000, onEnd }) => {
   return <div className="text-2xl">{`Time: ${internalTime / 1000}s`}</div>;
 };
 
+const Footer = () => (
+  <a
+    href="https://elijahdr.vercel.app/"
+    target="_blank"
+    rel="noreferrer"
+    className="absolute text-lg bottom-7"
+  >
+    Created by Elijah
+  </a>
+);
+
 const Game = () => {
   const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -200,6 +211,8 @@ const Game = () => {
           </div>
         </InnerContainer>
       )}
+
+      <Footer />
     </div>
   );
 };
