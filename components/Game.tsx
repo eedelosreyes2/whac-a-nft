@@ -15,6 +15,10 @@ const generateMoles = (amount) =>
     points: MOLE_SCORE,
   }));
 
+const InnerContainer = ({ children }) => (
+  <div className="pt-64">{children}</div>
+);
+
 const Moles = ({ children }) => <div className="flex">{children}</div>;
 
 const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
@@ -81,7 +85,9 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
   );
 };
 
-const Score = ({ value }) => <div>{`Score: ${value}`}</div>;
+const Score = ({ value }) => (
+  <div className="text-2xl">{`Score: ${value}`}</div>
+);
 
 const Timer = ({ time, interval = 1000, onEnd }) => {
   const [internalTime, setInternalTime] = useState(time);
@@ -104,7 +110,7 @@ const Timer = ({ time, interval = 1000, onEnd }) => {
     };
   }, [interval]);
 
-  return <div>{`Time: ${internalTime / 1000}s`}</div>;
+  return <div className="text-2xl">{`Time: ${internalTime / 1000}s`}</div>;
 };
 
 const Game = () => {
@@ -127,11 +133,17 @@ const Game = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center text-center">
+    <div
+      className="min-h-screen w-full flex flex-col items-center text-center font-bold pt-32"
+      style={{
+        backgroundImage: "url('/game-bg.png')",
+        backgroundSize: '100% 100%',
+      }}
+    >
       {!playing && !finished && (
         <div className="">
-          <div className="text-5xl">Whac-a-NFT</div>
-          <div className="max-w-xl text-lg my-10">
+          <div className="text-7xl">Whac-a-NFT</div>
+          <div className="max-w-2xl text-xl my-10">
             Integrate your NFTs into a play-to-earn Whac-a-Mole-like blockchain
             game and view the on-chain scores of other players!
           </div>
@@ -140,13 +152,16 @@ const Game = () => {
           </button>
         </div>
       )}
+
       {playing && (
-        <>
-          <button className="end-game" onClick={endGame}>
+        <InnerContainer>
+          <button className="button absolute top-5 right-5" onClick={endGame}>
             End Game
           </button>
-          <Score value={score} />
-          <Timer time={TIME_LIMIT} onEnd={endGame} />
+          <div className="absolute text-left top-5 left-5">
+            <Score value={score} />
+            <Timer time={TIME_LIMIT} onEnd={endGame} />
+          </div>
           <Moles>
             {moles.map(({ delay, speed, points }, index) => (
               <Mole
@@ -158,13 +173,16 @@ const Game = () => {
               />
             ))}
           </Moles>
-        </>
+        </InnerContainer>
       )}
+
       {finished && (
-        <>
+        <InnerContainer>
           <Score value={score} />
-          <button onClick={startGame}>Play Again</button>
-        </>
+          <button className="button mt-5" onClick={startGame}>
+            Play Again
+          </button>
+        </InnerContainer>
       )}
     </div>
   );
