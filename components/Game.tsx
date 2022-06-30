@@ -10,7 +10,7 @@ const POINTS_MULTIPLIER = 0.9;
 const TIME_MULTIPLIER = 1.25;
 
 const generateMoles = (amount) =>
-  new Array(amount).fill().map(() => ({
+  new Array(amount).fill(0).map(() => ({
     speed: gsap.utils.random(0.5, 1),
     delay: gsap.utils.random(0.5, 4),
     points: MOLE_SCORE,
