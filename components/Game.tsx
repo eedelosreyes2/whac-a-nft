@@ -1,6 +1,5 @@
 // Game thanks to - https://www.smashingmagazine.com/2021/05/get-started-whac-a-mole-react-game/
-
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
 const TIME_LIMIT = 30000;
@@ -23,11 +22,13 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
   const bobRef = useRef(null);
   const pointsRef = useRef(points);
   const buttonRef = useRef(null);
+
   useEffect(() => {
     gsap.set(buttonRef.current, {
       yPercent: 100,
       display: 'block',
     });
+
     bobRef.current = gsap.to(buttonRef.current, {
       yPercent: 0,
       duration: speed,
@@ -41,6 +42,7 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
         );
       },
     });
+
     return () => {
       if (bobRef.current) bobRef.current.kill();
     };
@@ -69,6 +71,7 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
     setWhacked(true);
     onWhack(pointsRef.current);
   };
+
   return (
     <div className="mole-hole">
       <button className="mole" ref={buttonRef} onClick={whack}>
@@ -124,15 +127,21 @@ const Game = () => {
   };
 
   return (
-    <Fragment>
+    <div className="min-h-screen w-full flex flex-col items-center justify-center text-center">
       {!playing && !finished && (
-        <Fragment>
-          <h1>Whac a Mole</h1>
-          <button onClick={startGame}>Start Game</button>
-        </Fragment>
+        <div className="">
+          <div className="text-5xl">Whac-a-NFT</div>
+          <div className="max-w-xl text-lg my-10">
+            Integrate your NFTs into a play-to-earn Whac-a-Mole-like blockchain
+            game and view the on-chain scores of other players!
+          </div>
+          <button className="button mt-5" onClick={startGame}>
+            Start Game
+          </button>
+        </div>
       )}
       {playing && (
-        <Fragment>
+        <>
           <button className="end-game" onClick={endGame}>
             End Game
           </button>
@@ -149,15 +158,15 @@ const Game = () => {
               />
             ))}
           </Moles>
-        </Fragment>
+        </>
       )}
       {finished && (
-        <Fragment>
+        <>
           <Score value={score} />
           <button onClick={startGame}>Play Again</button>
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </div>
   );
 };
 

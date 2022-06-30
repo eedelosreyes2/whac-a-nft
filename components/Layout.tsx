@@ -7,19 +7,19 @@ type Props = {
 
 const Layout: React.FC<Props> = (props) => (
   <div
-    className="min-h-screen bg-slate-900 
+    className="min-h-screen bg-green-600 
     flex flex-col justify-center items-center
     text-white"
   >
     <Head>
-      <title>Whac-A-NFT</title>
+      <title>Whac-a-NFT</title>
       <meta
         name="description"
         content="Integrate your NFTs into a play-to-earn Whac-a-Mole-like blockchain
             game and view the on-chain scores of other players."
       />
     </Head>
-    <div>{props.children}</div>
+    {props.children}
   </div>
 );
 
