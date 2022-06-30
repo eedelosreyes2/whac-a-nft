@@ -132,6 +132,11 @@ const Game = () => {
     setFinished(false);
   };
 
+  const leaveGame = () => {
+    setPlaying(false);
+    setFinished(false);
+  };
+
   return (
     <div
       className="min-h-screen w-full flex flex-col items-center text-center font-bold pt-32"
@@ -142,14 +147,20 @@ const Game = () => {
     >
       {!playing && !finished && (
         <div className="">
-          <div className="text-7xl">Whac-a-NFT</div>
+          <div className="text-5xl md:text-7xl">Whac-a-NFT</div>
           <div className="max-w-2xl text-xl my-10">
             Integrate your NFTs into a play-to-earn Whac-a-Mole-like blockchain
             game and view the on-chain scores of other players!
           </div>
-          <button className="button mt-5" onClick={startGame}>
-            Start Game
-          </button>
+          <div className="flex flex-col items-center">
+            <button className="button mt-5" onClick={startGame}>
+              Connect Wallet
+            </button>
+            <div className=" text-lg py-7">Or play without logging in</div>
+            <button className="button" onClick={startGame}>
+              Play
+            </button>
+          </div>
         </div>
       )}
 
@@ -179,9 +190,14 @@ const Game = () => {
       {finished && (
         <InnerContainer>
           <Score value={score} />
-          <button className="button mt-5" onClick={startGame}>
-            Play Again
-          </button>
+          <div className="flex flex-col">
+            <button className="button mt-5" onClick={startGame}>
+              Play Again
+            </button>
+            <button className="button mt-5" onClick={leaveGame}>
+              Disconnect
+            </button>
+          </div>
         </InnerContainer>
       )}
     </div>
