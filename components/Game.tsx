@@ -4,7 +4,7 @@ import gsap from 'gsap';
 
 const TIME_LIMIT = 30000;
 const MOLE_SCORE = 100;
-const NUMBER_OF_MOLES = 5;
+const NUMBER_OF_MOLES = 9;
 const POINTS_MULTIPLIER = 0.9;
 const TIME_MULTIPLIER = 1.25;
 
@@ -14,12 +14,6 @@ const generateMoles = (amount) =>
     delay: gsap.utils.random(0.5, 4),
     points: MOLE_SCORE,
   }));
-
-const InnerContainer = ({ children }) => (
-  <div className="sm:pt-64">{children}</div>
-);
-
-const Moles = ({ children }) => <div className="flex">{children}</div>;
 
 const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
   const [whacked, setWhacked] = useState(false);
@@ -180,7 +174,7 @@ const Game = () => {
       )}
 
       {playing && (
-        <InnerContainer>
+        <div className="sm:pt-64">
           <button className="button absolute top-5 right-5" onClick={endGame}>
             End Game
           </button>
@@ -188,7 +182,7 @@ const Game = () => {
             <Score value={score} />
             <Timer time={TIME_LIMIT} onEnd={endGame} />
           </div>
-          <Moles>
+          <div className="flex">
             {moles.map(({ delay, speed, points }, index) => (
               <Mole
                 key={index}
@@ -198,12 +192,12 @@ const Game = () => {
                 speed={speed}
               />
             ))}
-          </Moles>
-        </InnerContainer>
+          </div>
+        </div>
       )}
 
       {finished && (
-        <InnerContainer>
+        <div className="sm:pt-64">
           <div className="flex flex-col items-center gap-10">
             <Score value={score} />
             <button className="button" onClick={startGame}>
@@ -213,7 +207,7 @@ const Game = () => {
               Disconnect
             </button>
           </div>
-        </InnerContainer>
+        </div>
       )}
 
       <Footer />
