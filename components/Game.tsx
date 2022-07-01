@@ -193,7 +193,7 @@ const Game = () => {
           <div className="absolute left-0 right-0 m-auto max-w-4xl bottom-20 sm:pb-[3vh]">
             <div className="flex flex-wrap lg:max-w-2xl justify-center mx-auto">
               {moles.map(({ delay, speed, points }, index) => (
-                <div className="flex flex-col items-center">
+                <div key={index} className="flex flex-col items-center">
                   <Mole
                     key={index}
                     onWhack={onWhack}
