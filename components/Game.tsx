@@ -180,18 +180,20 @@ const Game = () => {
 
       {playing && (
         <>
-          <button className="button absolute top-5 right-5" onClick={endGame}>
-            End Game
-          </button>
-          <div className="absolute text-left top-5 left-5">
-            <Score value={score} />
-            <Timer time={TIME_LIMIT} onEnd={endGame} />
+          <div className="flex w-full justify-between px-5 lg:px-32 absolute top-5">
+            <div className="text-left">
+              <Score value={score} />
+              <Timer time={TIME_LIMIT} onEnd={endGame} />
+            </div>
+            <button className="button" onClick={endGame}>
+              End Game
+            </button>
           </div>
 
           <div className="absolute left-0 right-0 m-auto max-w-4xl bottom-20 sm:pb-[3vh]">
             <div className="flex flex-wrap lg:max-w-2xl justify-center mx-auto">
               {moles.map(({ delay, speed, points }, index) => (
-                <div>
+                <div className="flex flex-col items-center">
                   <Mole
                     key={index}
                     onWhack={onWhack}
@@ -199,7 +201,7 @@ const Game = () => {
                     delay={delay}
                     speed={speed}
                   />
-                  <div className="h-10">
+                  <div className="h-1">
                     <Image src="/hole.png" width={175} height={20} alt="mole" />
                   </div>
                 </div>
