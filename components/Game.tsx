@@ -16,7 +16,7 @@ const generateMoles = (amount) =>
   }));
 
 const InnerContainer = ({ children }) => (
-  <div className="pt-64">{children}</div>
+  <div className="sm:pt-64">{children}</div>
 );
 
 const Moles = ({ children }) => <div className="flex">{children}</div>;
@@ -86,7 +86,7 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
 };
 
 const Score = ({ value }) => (
-  <div className="text-2xl">{`Score: ${value}`}</div>
+  <div className="text-xl sm:text-5xl">{`Score: ${value}`}</div>
 );
 
 const Timer = ({ time, interval = 1000, onEnd }) => {
@@ -110,7 +110,11 @@ const Timer = ({ time, interval = 1000, onEnd }) => {
     };
   }, [interval]);
 
-  return <div className="text-2xl">{`Time: ${internalTime / 1000}s`}</div>;
+  return (
+    <div className="text-xl sm:text-5xl sm:mt-8">{`Time: ${
+      internalTime / 1000
+    }s`}</div>
+  );
 };
 
 const Footer = () => (
@@ -158,8 +162,8 @@ const Game = () => {
     >
       {!playing && !finished && (
         <div className="">
-          <div className="text-5xl md:text-7xl">Whac-a-NFT</div>
-          <div className="max-w-2xl text-xl my-10">
+          <div className="text-4xl sm:text-5xl md:text-7xl">Whac-a-NFT</div>
+          <div className="max-w-xl text-xl px-7 md:px-0 my-10">
             Integrate your NFTs into a play-to-earn Whac-a-Mole-like blockchain
             game and view the on-chain scores of other players!
           </div>
@@ -167,7 +171,7 @@ const Game = () => {
             <button className="button mt-5" onClick={startGame}>
               Connect Wallet
             </button>
-            <div className=" text-lg py-7">Or play without logging in</div>
+            <div className="text-lg py-7">Or play without logging in</div>
             <button className="button" onClick={startGame}>
               Play
             </button>
@@ -200,12 +204,12 @@ const Game = () => {
 
       {finished && (
         <InnerContainer>
-          <Score value={score} />
-          <div className="flex flex-col">
-            <button className="button mt-5" onClick={startGame}>
+          <div className="flex flex-col items-center gap-10">
+            <Score value={score} />
+            <button className="button" onClick={startGame}>
               Play Again
             </button>
-            <button className="button mt-5" onClick={leaveGame}>
+            <button className="button" onClick={leaveGame}>
               Disconnect
             </button>
           </div>
