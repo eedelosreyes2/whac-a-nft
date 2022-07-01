@@ -6,6 +6,11 @@
   font-family: 'Fredoka One', cursive;
 }
 
+img {
+  pointer-events: none;
+  user-select: none;
+}
+
 @layer components {
   .button {
     background-color: orangered;

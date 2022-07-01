@@ -1,5 +1,6 @@
 // Game thanks to - https://www.smashingmagazine.com/2021/05/get-started-whac-a-mole-react-game/
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 
 const TIME_LIMIT = 30000;
@@ -71,9 +72,12 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
   };
 
   return (
-    <div className="mole-hole">
-      <button className="mole" ref={buttonRef} onClick={whack}>
-        Mole
+    <div
+      className="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48
+      pt-5 flex flex-col overflow-hidden"
+    >
+      <button ref={buttonRef} onClick={whack}>
+        <Image src="/mole.png" width={175} height={175} alt="mole" />
       </button>
     </div>
   );
@@ -148,7 +152,8 @@ const Game = () => {
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center text-center font-bold pt-32"
+      className="min-h-screen w-full flex flex-col items-center 
+        text-center font-bold pt-32 pb-32 lg:pb-64 relative"
       style={{
         backgroundImage: "url('/game-bg.png')",
         backgroundSize: '100% 100%',
@@ -174,7 +179,7 @@ const Game = () => {
       )}
 
       {playing && (
-        <div className="sm:pt-64">
+        <>
           <button className="button absolute top-5 right-5" onClick={endGame}>
             End Game
           </button>
@@ -182,18 +187,26 @@ const Game = () => {
             <Score value={score} />
             <Timer time={TIME_LIMIT} onEnd={endGame} />
           </div>
-          <div className="flex">
-            {moles.map(({ delay, speed, points }, index) => (
-              <Mole
-                key={index}
-                onWhack={onWhack}
-                points={points}
-                delay={delay}
-                speed={speed}
-              />
-            ))}
+
+          <div className="absolute left-0 right-0 m-auto max-w-4xl bottom-20 sm:pb-[3vh]">
+            <div className="flex flex-wrap lg:max-w-2xl justify-center mx-auto">
+              {moles.map(({ delay, speed, points }, index) => (
+                <div>
+                  <Mole
+                    key={index}
+                    onWhack={onWhack}
+                    points={points}
+                    delay={delay}
+                    speed={speed}
+                  />
+                  <div className="h-10">
+                    <Image src="/hole.png" width={175} height={20} alt="mole" />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {finished && (
