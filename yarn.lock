@@ -1749,7 +1749,7 @@
   "resolved" "https://registry.npmjs.org/minimist/-/minimist-1.2.6.tgz"
   "version" "1.2.6"
 
-"moralis@>=1.8.0":
+"moralis@^1.8.1", "moralis@>=1.8.0":
   "integrity" "sha512-qjkVhe3/EBgGiSrf6hIJ5epvcP5ds1ZIHGR8TbfS58npCNEMBtd+u+Z99WVyRyWxmMXI6pETKEmufTj/lG7a9w=="
   "resolved" "https://registry.npmjs.org/moralis/-/moralis-1.8.1.tgz"
   "version" "1.8.1"
