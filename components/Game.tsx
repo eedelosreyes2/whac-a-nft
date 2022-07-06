@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
-
 const TIME_LIMIT = 30000;
 const MOLE_SCORE = 100;
 const NUMBER_OF_MOLES = 9;
@@ -126,7 +125,7 @@ const Footer = () => (
   </a>
 );
 
-const Game = () => {
+const Game = ({ isAuthenticated, authenticate, user, logout }) => {
   const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
@@ -148,6 +147,7 @@ const Game = () => {
   const leaveGame = () => {
     setPlaying(false);
     setFinished(false);
+    logout();
   };
 
   return (
@@ -167,11 +167,30 @@ const Game = () => {
             game and view the on-chain scores of other players!
           </div>
           <div className="flex flex-col items-center">
-            <button className="button mt-5" onClick={startGame}>
-              Connect Wallet
-            </button>
-            <div className="text-lg py-7">Or play without logging in</div>
-            <button className="button" onClick={startGame}>
+            {!isAuthenticated ? (
+              <>
+                <div
+                  className="button my-5 flex items-center justify-center"
+                  onClick={() => authenticate({ type: 'sol' })}
+                >
+                  Connect Wallet
+                </div>
+                <div className="text-lg py-7">Or play without logging in</div>
+              </>
+            ) : (
+              <>
+                <div
+                  className="button my-5 flex items-center justify-center"
+                  onClick={leaveGame}
+                >
+                  Disconnect
+                </div>
+                <div className="text-lg py-7">
+                  Logged in as <p>{user.get('solAddress')}</p>
+                </div>
+              </>
+            )}
+            <button className="button my-5" onClick={startGame}>
               Play
             </button>
           </div>
