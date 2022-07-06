@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@walletconnect/web3-provider": "^1.7.8",
+    "@web3auth/web3auth": "^1.1.0",
     "gsap": "^3.10.4",
+    "magic-sdk": "^7.0.0",
     "moralis": "^1.8.1",
     "next": "12.1.6",
     "react": "18.2.0",
