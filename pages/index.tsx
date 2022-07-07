@@ -6,12 +6,14 @@ import Layout from '../components/Layout';
 const NETWORK = 'mainnet'; // devnet
 
 export default function Home() {
-  const [nfts, setNfts] = useState([]);
   const { isAuthenticated, authenticate, user, logout } = useMoralis();
   const { SolanaAPI } = useMoralisSolanaApi();
+  const [address, setAddress] = useState('');
+  const [nfts, setNfts] = useState([]);
 
   useEffect(() => {
     if (isAuthenticated) {
+      setAddress(user.attributes.solAddress);
       getNfts();
     }
   }, [isAuthenticated]);
@@ -20,7 +22,7 @@ export default function Home() {
     try {
       const nftAddresses = await SolanaAPI.account.getNFTs({
         network: NETWORK,
-        address: user.attributes.solAddress,
+        address: address || user.attributes.solAddress,
       });
 
       nftAddresses.map(async (address) => {
@@ -40,8 +42,8 @@ export default function Home() {
       <Game
         isAuthenticated={isAuthenticated}
         authenticate={authenticate}
-        user={user}
         logout={logout}
+        address={address}
       />
     </Layout>
   );

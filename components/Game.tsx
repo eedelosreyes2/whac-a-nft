@@ -125,7 +125,7 @@ const Footer = () => (
   </a>
 );
 
-const Game = ({ isAuthenticated, authenticate, user, logout }) => {
+const Game = ({ isAuthenticated, authenticate, logout, address }) => {
   const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
@@ -186,7 +186,7 @@ const Game = ({ isAuthenticated, authenticate, user, logout }) => {
                   Disconnect
                 </div>
                 <div className="text-lg py-7">
-                  Logged in as <p>{user.get('solAddress')}</p>
+                  Logged in as <p>{address}</p>
                 </div>
               </>
             )}
@@ -203,6 +203,9 @@ const Game = ({ isAuthenticated, authenticate, user, logout }) => {
             <div className="text-left">
               <Score value={score} />
               <Timer time={TIME_LIMIT} onEnd={endGame} />
+            </div>
+            <div className="text-lg break-all">
+              Logged in as <p>{address}</p>
             </div>
             <button className="button" onClick={endGame}>
               End Game
