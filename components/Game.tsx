@@ -63,7 +63,7 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
         },
       });
     }
-  }, [whacked]);
+  }, [whacked, points]);
 
   const whack = () => {
     setWhacked(true);
