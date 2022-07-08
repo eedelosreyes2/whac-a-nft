@@ -25,15 +25,31 @@ export default function Home() {
         address: address || user.attributes.solAddress,
       });
 
-      nftAddresses.map(async (address) => {
-        const nftResult = await SolanaAPI.nft.getNFTMetadata({
-          network: NETWORK,
-          address: address.mint,
-        });
-        console.log(nftResult);
+      nftAddresses.map(async ({ mint }) => {
+        await SolanaAPI.nft
+          .getNFTMetadata({
+            address: mint,
+            network: NETWORK,
+          })
+          .then((data) => {
+            const { name, metaplex } = data;
+
+            fetch(metaplex.metadataUri)
+              .then((response) => response.json())
+              .then(({ image }) => {
+                let index = nfts.findIndex((nft) => nft.mint === mint);
+                if (index < 0) {
+                  setNfts((nft) => nft.concat({ mint, name, image }));
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => console.log(err));
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -44,6 +60,7 @@ export default function Home() {
         authenticate={authenticate}
         logout={logout}
         address={address}
+        nfts={nfts}
       />
     </Layout>
   );

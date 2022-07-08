@@ -8,12 +8,15 @@ const NUMBER_OF_MOLES = 9;
 const POINTS_MULTIPLIER = 0.9;
 const TIME_MULTIPLIER = 1.25;
 
-const generateMoles = (amount) =>
-  new Array(amount).fill(0).map(() => ({
+const generateMoles = (amount, nfts) => {
+  console.log(nfts);
+
+  return new Array(amount).fill(0).map(() => ({
     speed: gsap.utils.random(0.5, 1),
     delay: gsap.utils.random(0.5, 4),
     points: MOLE_SCORE,
   }));
+};
 
 const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
   const [whacked, setWhacked] = useState(false);
@@ -125,11 +128,11 @@ const Footer = () => (
   </a>
 );
 
-const Game = ({ isAuthenticated, authenticate, logout, address }) => {
+const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
   const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
-  const [moles, setMoles] = useState(generateMoles(NUMBER_OF_MOLES));
+  const [moles, setMoles] = useState(generateMoles(NUMBER_OF_MOLES, nfts));
 
   const onWhack = (points) => setScore(score + points);
 
