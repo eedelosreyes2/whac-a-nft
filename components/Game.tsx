@@ -243,9 +243,11 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
               <Score value={score} />
               <Timer time={TIME_LIMIT} onEnd={endGame} />
             </div>
-            <div className="text-lg break-all">
-              Logged in as <p>{address}</p>
-            </div>
+            {address ? (
+              <div className="text-lg break-all">
+                Logged in as <p>{address}</p>
+              </div>
+            ) : null}
             <button className="button" onClick={endGame}>
               End Game
             </button>
