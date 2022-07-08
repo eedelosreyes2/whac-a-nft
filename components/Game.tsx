@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
+
 const TIME_LIMIT = 30000;
 const MOLE_SCORE = 100;
 const NUMBER_OF_MOLES = 9;
@@ -9,20 +10,20 @@ const POINTS_MULTIPLIER = 0.9;
 const TIME_MULTIPLIER = 1.25;
 
 const generateMoles = (amount, nfts) => {
-  console.log(nfts);
-
   return new Array(amount).fill(0).map(() => ({
     speed: gsap.utils.random(0.5, 1),
     delay: gsap.utils.random(0.5, 4),
     points: MOLE_SCORE,
+    image: '',
   }));
 };
 
-const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
+const Mole = ({ onWhack, image, points, delay, speed, pointsMin = 10 }) => {
   const [whacked, setWhacked] = useState(false);
   const bobRef = useRef(null);
   const pointsRef = useRef(points);
   const buttonRef = useRef(null);
+  const src = image ?? '/mole.png';
 
   useEffect(() => {
     gsap.set(buttonRef.current, {
@@ -79,7 +80,13 @@ const Mole = ({ onWhack, points, delay, speed, pointsMin = 10 }) => {
       pt-5 flex flex-col overflow-hidden"
     >
       <button ref={buttonRef} onClick={whack}>
-        <Image src="/mole.png" width={175} height={175} alt="mole" />
+        <Image
+          loader={() => src}
+          src={src}
+          width={175}
+          height={175}
+          alt="mole"
+        />
       </button>
     </div>
   );
@@ -133,6 +140,16 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
   const [moles, setMoles] = useState(generateMoles(NUMBER_OF_MOLES, nfts));
+  let i = 0;
+
+  // TODO: Fix this logic
+  useEffect(() => {
+    moles.map((mole) => {
+      if (mole.image === '' && nfts[i]) {
+        mole.image = nfts[i++].image;
+      }
+    });
+  }, [nfts]);
 
   const onWhack = (points) => setScore(score + points);
 
@@ -217,11 +234,12 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
 
           <div className="absolute left-0 right-0 m-auto max-w-4xl bottom-20 sm:pb-[3vh]">
             <div className="flex flex-wrap lg:max-w-2xl justify-center mx-auto">
-              {moles.map(({ delay, speed, points }, index) => (
+              {moles.map(({ delay, speed, points, image }, index) => (
                 <div key={index} className="flex flex-col items-center">
                   <Mole
                     key={index}
                     onWhack={onWhack}
+                    image={image}
                     points={points}
                     delay={delay}
                     speed={speed}
