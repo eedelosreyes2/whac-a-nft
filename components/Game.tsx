@@ -208,23 +208,26 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
                   Connect Wallet
                 </div>
                 <div className="text-lg py-7">Or play without logging in</div>
+                <button className="button my-5" onClick={startGame}>
+                  Play
+                </button>
               </>
             ) : (
               <>
+                <div className="text-lg py-7">
+                  Logged in as <p>{address}</p>
+                </div>
+                <button className="button my-5" onClick={startGame}>
+                  Play
+                </button>
                 <div
                   className="button my-5 flex items-center justify-center"
                   onClick={leaveGame}
                 >
                   Disconnect
                 </div>
-                <div className="text-lg py-7">
-                  Logged in as <p>{address}</p>
-                </div>
               </>
             )}
-            <button className="button my-5" onClick={startGame}>
-              Play
-            </button>
           </div>
         </>
       )}
