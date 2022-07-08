@@ -189,17 +189,10 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
     logout();
   };
 
-  return (
-    <div
-      className="min-h-screen w-full flex flex-col items-center 
-        text-center font-bold pt-32 pb-32 lg:pb-64 relative"
-      style={{
-        backgroundImage: "url('/game-bg.png')",
-        backgroundSize: '100% 100%',
-      }}
-    >
+  const renderLanding = () => (
+    <>
       {!playing && !finished && (
-        <div className="">
+        <>
           <div className="text-4xl sm:text-5xl md:text-7xl">Whac-a-NFT</div>
           <div className="max-w-xl text-xl px-7 md:px-0 my-10">
             Integrate your NFTs into a play-to-earn Whac-a-Mole-like blockchain
@@ -233,9 +226,13 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
               Play
             </button>
           </div>
-        </div>
+        </>
       )}
+    </>
+  );
 
+  const renderPlaying = () => (
+    <>
       {playing && (
         <>
           <div className="flex w-full justify-between px-5 lg:px-32 absolute top-5">
@@ -274,7 +271,11 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
           </div>
         </>
       )}
+    </>
+  );
 
+  const renderFinished = () => (
+    <>
       {finished && (
         <div className="sm:pt-64">
           <div className="flex flex-col items-center gap-10">
@@ -288,7 +289,21 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
           </div>
         </div>
       )}
+    </>
+  );
 
+  return (
+    <div
+      className="min-h-screen w-full flex flex-col items-center 
+        text-center font-bold pt-32 pb-32 lg:pb-64 relative"
+      style={{
+        backgroundImage: "url('/game-bg.png')",
+        backgroundSize: '100% 100%',
+      }}
+    >
+      {renderLanding()}
+      {renderPlaying()}
+      {renderFinished()}
       <Footer />
     </div>
   );
