@@ -15,6 +15,9 @@ export default function Home() {
     if (isAuthenticated) {
       setAddress(user.attributes.solAddress);
       getNfts();
+    } else {
+      setAddress('');
+      setNfts([]);
     }
   }, [isAuthenticated]);
 
@@ -34,11 +37,13 @@ export default function Home() {
           .then((data) => {
             const { name, metaplex } = data;
 
+            // Fetch imageUrl from uri
             fetch(metaplex.metadataUri)
               .then((response) => response.json())
               .then(({ image }) => {
                 let index = nfts.findIndex((nft) => nft.mint === mint);
                 if (index < 0) {
+                  // Finally set nfts
                   setNfts((nft) => nft.concat({ mint, name, image }));
                 }
               })

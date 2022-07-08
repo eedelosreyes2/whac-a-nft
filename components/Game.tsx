@@ -1,4 +1,4 @@
-// Game thanks to - https://www.smashingmagazine.com/2021/05/get-started-whac-a-mole-react-game/
+// Game tutorial thanks to - https://www.smashingmagazine.com/2021/05/get-started-whac-a-mole-react-game/
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
@@ -9,7 +9,7 @@ const NUMBER_OF_MOLES = 9;
 const POINTS_MULTIPLIER = 0.9;
 const TIME_MULTIPLIER = 1.25;
 
-const generateMoles = (amount, nfts) => {
+const generateMoles = (amount) => {
   return new Array(amount).fill(0).map(() => ({
     speed: gsap.utils.random(0.5, 1),
     delay: gsap.utils.random(0.5, 4),
@@ -23,7 +23,7 @@ const Mole = ({ onWhack, image, points, delay, speed, pointsMin = 10 }) => {
   const bobRef = useRef(null);
   const pointsRef = useRef(points);
   const buttonRef = useRef(null);
-  const src = image ?? '/mole.png';
+  const src = image !== '' ? image : '/mole.png';
 
   useEffect(() => {
     gsap.set(buttonRef.current, {
@@ -139,17 +139,36 @@ const Game = ({ isAuthenticated, authenticate, logout, address, nfts }) => {
   const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
-  const [moles, setMoles] = useState(generateMoles(NUMBER_OF_MOLES, nfts));
-  let i = 0;
+  const [moles, setMoles] = useState(generateMoles(NUMBER_OF_MOLES));
 
-  // TODO: Fix this logic
   useEffect(() => {
+    if (nfts.length <= 0) {
+      moles.map((moles) => {
+        moles.image = '';
+      });
+    }
+    let i = 0;
     moles.map((mole) => {
-      if (mole.image === '' && nfts[i]) {
-        mole.image = nfts[i++].image;
+      if (mole.image === '' && nfts[i++]) {
+        mole.image = nfts.pop().image;
+        setMoles(shuffle(moles));
       }
     });
   }, [nfts]);
+
+  function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+    return array;
+  }
 
   const onWhack = (points) => setScore(score + points);
 
