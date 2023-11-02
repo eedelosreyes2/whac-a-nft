@@ -23,13 +23,13 @@ export default function Home() {
 
   const getNfts = async () => {
     try {
-      const nftAddresses = await SolanaAPI.account.getNFTs({
+      const nftAddresses = await SolanaAPI.Account.getNFTs({
         network: NETWORK,
         address: address || user.attributes.solAddress,
       });
 
       nftAddresses.map(async ({ mint }) => {
-        await SolanaAPI.nft
+        await SolanaAPI.NFT
           .getNFTMetadata({
             address: mint,
             network: NETWORK,
