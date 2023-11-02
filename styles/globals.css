@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: 'Fredoka One', cursive;
-}
-
 img {
   pointer-events: none;
   user-select: none;
